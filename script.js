@@ -4,7 +4,7 @@
 var generateBtn = document.querySelector("#generate");
 
 function generatePassword() {
-  var passwordLength;
+  var passwordLength = 0;
   var useLowerChars;
   var useUpperChars;
   var useNumericChars;
@@ -15,10 +15,8 @@ function generatePassword() {
   var specialChars = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~".split(""); // Assign each special character to an array index
   // Used to construct the password based on the user's complexity choices
   var constructPassword = [];
-  // Used to hold the random index number for each iteration of the final constructed password array
-  var randomIndex;
   // Used to lookup the index of the char to add to the constructed password
-  var finalPassword;
+  var finalPassword = [];
 
   // Prompt user to choose a password length greater than 8 and less than 128 and store the input in a variable
   passwordLength = prompt("Please enter a number between 8 and 128 to choose the length of the generated password");
@@ -48,39 +46,38 @@ function generatePassword() {
 
   // Take the user's character selections and concatinate into an array
   if (useLowerChars) {
-    constructPassword.push(lowercaseChars);
+    constructPassword = constructPassword.concat(lowercaseChars);
   }
   useUpperChars = confirm("Would you like to include uppercase characters in the password?");
   if (useUpperChars) {
-    constructPassword.push(uppercaseChars);
+    constructPassword = constructPassword.concat(uppercaseChars);
   }
   useNumericChars = confirm("Would you like to include numeric characters in the password?");
   if (useNumericChars) {
-    constructPassword.push(numericChars);
+    constructPassword = constructPassword.concat(numericChars);
   }
   useSpecialChars = confirm("Would you like to include special characters in the password?");
   if (useSpecialChars) {
-    constructPassword.push(specialChars);
+    constructPassword = constructPassword.concat(specialChars);
   }
-  for (i = 0; i <= passwordLength - 1; i++) {
-    randomIndex = Math.floor(Math.random() * constructPassword.length);
-    charLookup = constructPassword[randomIndex];
-    finalPassword += constructPassword[randomIndex];
-  }
-  return finalPassword;
 
-  while (
-    (useLowerChars = "false") &&
-    (useUpperChars = "false") &&
-    (useNumericChars = "false") &&
-    (useSpecialChars = "false")
-  ) {
+  // Check to see if the user selected at least one of the complexity options and restart the 'generatePassword' function if they have not selected at leaset one option
+  while (useLowerChars === false && useUpperChars === false && useNumericChars === false && useSpecialChars === false) {
+    console.log(useLowerChars);
+    console.log(useUpperChars);
+    console.log(useNumericChars);
+    console.log(useSpecialChars);
     alert(
       "Please select at least one character type (lowercase, uppercase, numeric, or special) to use for the password"
     );
-    generatePassword();
     return;
   }
+
+  for (i = 0; i <= passwordLength - 1; i++) {
+    var randomIndex = Math.floor(Math.random() * constructPassword.length);
+    finalPassword += constructPassword[randomIndex];
+  }
+  return finalPassword;
 }
 
 //DEFAULT CODE BELOW
