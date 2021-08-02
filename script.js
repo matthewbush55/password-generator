@@ -31,9 +31,15 @@ function generatePassword() {
     generatePassword();
     return;
   }
+
+  if (isNaN(passwordLength)) {
+    alert("Input must be a number between 8 and 128");
+    generatePassword();
+    return;
+  }
   // Check to see if a valid number between 8 and 128 was entered and repeat the function if it is not valid
   if (passwordLength < 8 || passwordLength > 128) {
-    alert("Length is not long enough");
+    alert("Password is not long enough");
     generatePassword();
     return;
   }
