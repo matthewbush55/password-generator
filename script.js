@@ -1,15 +1,27 @@
 // Create array variables for each of the choice
-// var lowercaseChars = [97 - 122]; // ASCII values for all lowercase letters
-// var uppercaseChars = [65 - 90]; // ASCII values for all upercase letters
-// var numeric = [0 - 9];
-// var specialChars = [32 - 47]; // ASCII values for special characters
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
 function generatePassword() {
+  var passwordLength;
+  var useLowerChars;
+  var useUpperChars;
+  var useNumericChars;
+  var useSpecialChars;
+  var lowercaseChars = "abcdefghijklmnopqrstuvwxyz".split(""); // Assign each lowercase character to an array index
+  var uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""); // Assign each uppercase character to an array index
+  var numericChars = "0123456789".split(""); //Assign each numeric character to an array index
+  var specialChars = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~".split(""); // Assign each special character to an array index
+  // Used to construct the password based on the user's complexity choices
+  var constructPassword = [];
+  // Used to hold the random index number for each iteration of the final constructed password array
+  var randomIndex;
+  // Used to lookup the index of the char to add to the constructed password
+  var finalPassword;
+
   // Prompt user to choose a password length greater than 8 and less than 128 and store the input in a variable
-  var passwordLength = prompt("Please enter a number between 8 and 128 to choose the length of the generated password");
+  passwordLength = prompt("Please enter a number between 8 and 128 to choose the length of the generated password");
 
   // Check to see if 'cancel' button was clicked or if ok was entered without a value
   if (passwordLength === null) {
@@ -31,11 +43,31 @@ function generatePassword() {
   // Convert valid password into a number type
   passwordLength = parseInt(passwordLength);
 
-  // Prompt rompt user to choose whether they want to include lowercase, uppercase, numeric and/or special characters in their password and store the input in variables
-  var useLowerChars = confirm("Would you like to include lowercase characters in the password?");
-  var useUpperChars = confirm("Would you like to include uppercase characters in the password?");
-  var useNumericChars = confirm("Would you like to include numeric characters in the password?");
-  var useSpecialChars = confirm("Would you like to include special characters in the password?");
+  // Prompt user to choose whether they want to include lowercase, uppercase, numeric and/or special characters in their password and store the input in variables
+  useLowerChars = confirm("Would you like to include lowercase characters in the password?");
+
+  // Take the user's character selections and concatinate into an array
+  if (useLowerChars) {
+    constructPassword.push(lowercaseChars);
+  }
+  useUpperChars = confirm("Would you like to include uppercase characters in the password?");
+  if (useUpperChars) {
+    constructPassword.push(uppercaseChars);
+  }
+  useNumericChars = confirm("Would you like to include numeric characters in the password?");
+  if (useNumericChars) {
+    constructPassword.push(numericChars);
+  }
+  useSpecialChars = confirm("Would you like to include special characters in the password?");
+  if (useSpecialChars) {
+    constructPassword.push(specialChars);
+  }
+  for (i = 0; i <= passwordLength - 1; i++) {
+    randomIndex = Math.floor(Math.random() * constructPassword.length);
+    charLookup = constructPassword[randomIndex];
+    finalPassword += constructPassword[randomIndex];
+  }
+  return finalPassword;
 
   while (
     (useLowerChars = "false") &&
